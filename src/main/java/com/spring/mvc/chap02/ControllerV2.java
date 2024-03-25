@@ -52,7 +52,7 @@ public class ControllerV2 {
        mv.addObject("hobbies", hobbyList);
 
        // view의 데이터를 따로 담아줌
-       mv.setViewName("chap02/hoobies");
+       mv.setViewName("chap02/hobbies");
 
        return mv; // 문자열이 아닌 mv객체를 리턴.
     }
