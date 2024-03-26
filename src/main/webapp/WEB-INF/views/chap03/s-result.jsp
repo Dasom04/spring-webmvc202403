@@ -13,11 +13,11 @@
 
     <script>
 
-    // javascript단에서 model 데이터를 활용하는 법
-    const msg = '${result}'; // 문자열로 el을 사용하셔 변수에 할당 가능.
-    if(msg !== null) {
-        alert(msg);
-    }
+        // javascript단에서 model 데이터를 활용하는 법
+        const msg = '${result}'; // 문자열로 el을 사용하셔 변수에 할당 가능.
+        if(msg !== null) {
+            alert(msg);
+        }
 
     <script>
 
