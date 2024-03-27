@@ -18,7 +18,7 @@ public class BoardService {
 
 
     public void register(BoardWriteRequestDTO dto) {
-        Board updateWrite = new Board(dto); // dto를  entity로 변환
+        Board board = new Board(dto); // dto를  entity로 변환
         repository.save(board);
 
     }
