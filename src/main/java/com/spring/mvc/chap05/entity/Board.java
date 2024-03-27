@@ -9,7 +9,7 @@ CREATE TABLE tbl_board(
     reg_date DATETIME DEFAULT current_timestamp,
     writer VARCHAR(50) NOT NULL
 );
- 1대 1로 매치오디는 테이블 만들기 */
+ 1대 1로 매칭하는 테이블 만들기 */
 
 import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import lombok.*;

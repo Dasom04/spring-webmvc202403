@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardRepositoryImpl implements BoardRepository{
 
-    private final JdbcTemplate template;
 
     class BoardMapper implements RowMapper <Board>{
         @Override
@@ -33,7 +32,7 @@ public class BoardRepositoryImpl implements BoardRepository{
         }
     }
 
-
+    private final JdbcTemplate template;
 
     @Override
     public List<Board> findAll() {
@@ -43,7 +42,7 @@ public class BoardRepositoryImpl implements BoardRepository{
 
     @Override
     public Board findOne(int boardNo) {
-        String sql = "SELECT* FROM tbl_board WHERE board_no=?";
+        String sql = "SELECT * FROM tbl_board WHERE board_no=?";
         try {
             return template.queryForObject(sql, new BoardMapper(), boardNo);
         } catch (DataAccessException e) {

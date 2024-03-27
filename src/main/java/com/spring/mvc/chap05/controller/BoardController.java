@@ -38,7 +38,7 @@ public class BoardController {
     }
 
     // 3. 글쓰기 등록요청 (/board/write : POST)
-    // boardWriteRequestDTO를 활용하여 파라미터 처리 -> dto.request 패키지에 생성
+    // BoardWriteRequestDTO를 활용하여 파라미터 처리 -> dto.request 패키지에 생성
     // 등록 완료 후에는 목록 조회 요청이 다시 들어오게끔 처리.
     @PostMapping("/write")
     public String write(BoardWriteRequestDTO dto) {

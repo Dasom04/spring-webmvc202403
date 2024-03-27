@@ -23,12 +23,12 @@ public class BoardListResponseDTO {
         this.boardNo = board.getBoardNo();
         this.shortTitle = makeShortTitle(board.getTitle());
         this.shortContent = makeShortContent(board.getContent());
-        this.regDate = makePrettierdateString(board.getRegDate());
+        this.regDate = makePrettierDateString(board.getRegDate());
         this.viewCount = board.getViewCount();
         this.writer = board.getWriter();
     }
 
-    private String makePrettierdateString(LocalDateTime regDate) {
+    private String makePrettierDateString(LocalDateTime regDate) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return dtf.format(regDate);
     }
