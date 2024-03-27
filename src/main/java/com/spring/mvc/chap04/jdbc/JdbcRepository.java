@@ -82,11 +82,11 @@ public class JdbcRepository {
 
     // UPDATE 기능
     public void update(Person person) {
-        Connection conn = null;
+        Connection conn = null; // 나중에 close 하려고 미리 선언.
 
         try {
             // url, id, pw를 가지고 DB에 접속.
-            conn=getConnection();
+            conn = getConnection();
 
             // 오토커밋 끄기 (르탠젝션)
             conn.setAutoCommit(false);
@@ -96,14 +96,14 @@ public class JdbcRepository {
                     "person_age = ? WHERE id = ?";
 
             // sql 실행하는 객체를 받아오자
-            PreparedStatement psmt = conn.prepareStatement(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
 
-            psmt.setString(1,person.getPersonName());
-            psmt.setInt(2,person.getPersonAge());
-            psmt.setInt(3,person.getId());
+            pstmt.setString(1,person.getPersonName());
+            pstmt.setInt(2,person.getPersonAge());
+            pstmt.setInt(3,person.getId());
 
             // sql 실행 명령!
-            int result = psmt.executeUpdate();
+            int result = pstmt.executeUpdate();
 
             if(result == 1) conn.commit();
             else conn.rollback();
@@ -140,8 +140,8 @@ public class JdbcRepository {
             else conn.rollback();
 
         } catch (SQLException e) {
+            e.printStackTrace();
 
-            throw new RuntimeException(e);
         } finally {
             try {
                 conn.close();
@@ -161,8 +161,6 @@ public class JdbcRepository {
             conn= getConnection();
 
             String sql = "SELECT * FROM person";
-
-            conn.prepareStatement(sql);
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
@@ -215,6 +213,7 @@ public class JdbcRepository {
             // 가져올 데이터가 여러 행이면 반복문으로 처리
             // 지금은 pk로 조회했기 때문에 행이 하나이거나, 없을 수 있다. -> if문으로 처리.
             if(rs.next()) {
+
                 int personId = rs.getInt("id");
                 String personName = rs.getString("person_name");
                 int personAge = rs.getInt("person_age");

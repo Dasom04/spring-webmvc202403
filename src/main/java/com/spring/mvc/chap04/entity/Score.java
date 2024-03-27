@@ -1,6 +1,7 @@
 package com.spring.mvc.chap04.entity;
 
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
+import com.spring.mvc.chap04.dto.ScoreResponseDTO;
 import lombok.*;
 
 /**
@@ -41,7 +42,7 @@ public class Score {
 
     // 객체가 생성될 때 dto를 전달 받아서 자신의 메서드를 모든 필드를 초기화하는 생성자를 선언.
     public Score(ScoreRequestDTO dto) {
-        converInputData(dto); // 입력받은 값으로 필드 초기화
+        convertInputData(dto); // 입력받은 값으로 필드 초기화
         calculateTotalAndAvg(); // 총점과 평균 계산
         makeGrade(); // 평균에 따른 학점 -> 모든 필드 세팅 완료. -> 레파지토리에게 전달할 준비 완료.
     }
@@ -63,13 +64,12 @@ public class Score {
     }
 
     // 전달되는 dto에서 필요한 데이터를 Score의 필드에 할당하는 메서드
-    private void converInputData(ScoreRequestDTO dto){
+    private void convertInputData(ScoreRequestDTO dto){
         this.name = dto.getName();
         this.kor = dto.getKor();
         this.eng = dto.getEng();
         this.math = dto.getMath();
     }
 
-
-
 }
+

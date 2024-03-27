@@ -20,13 +20,20 @@ package com.spring.mvc.chap04.controller;
 */
 
 import com.spring.mvc.chap04.dto.ScoreRequestDTO;
+import com.spring.mvc.chap04.dto.ScoreResponseDTO;
+import com.spring.mvc.chap04.entity.Score;
 import com.spring.mvc.chap04.service.ScoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.net.http.HttpClient;
+import java.util.List;
 
 
 @Controller
@@ -35,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ScoreController {
 
     // DB에 데이터를 저장하기 위해 컨트롤러는 서비스가 꼭 필요하다.(의존관계)
-    // 의조낵체는 불변성을 띠게 작성하는 것이 좋다 -> @RequiredArgsConstructor로 초기화 진행
+    // 의존낵체는 불변성을 띠게 작성하는 것이 좋다 -> @RequiredArgsConstructor로 초기화 진행
     private final ScoreService service;
 
    /*
@@ -47,10 +54,17 @@ public class ScoreController {
     */
 
     // 1. 성적 입력폼 띄우기
+    // 성적 목록 조회
     @GetMapping("/list")
-    public String list(){
+    public String list (Model model,
+                        @RequestParam(defaultValue = "num") String sort) {
+        System.out.println("/score/list: GET!!!");
+        List<ScoreResponseDTO> dtoList = service.findAll(sort);
+
+        model.addAttribute("sList", dtoList);
         return "chap04/score-list";
     }
+
 
     // 2. 성적 정보를 데이터베이스에 저장하는 요청
     @PostMapping("/register")
@@ -58,11 +72,103 @@ public class ScoreController {
         System.out.println("/score/register: POST!!!");
         System.out.println("dto = " + dto);
 
-        service.insertScore(dto);// 서비스야 인서트 스코어에 dto를 줄게
+        service.insertScore(dto); // 서비스야 인서트 스코어에 dto를 줄게
+
+        // 등록이 완료되었다면 목록 화면으로 데이터를 전달해서 목록 화면을 보여주고 싶다.
+
+        /*
+            # forward vs redirect
+            - 포워드는 요청 리소스를 그대로 전달해줌.
+            - 따라서 URL이 변경되지 않고 한번의요청과 한번의 응답만 이뤄짐
+            - forward할 때는 포워딩할 파일의 경로를 적습니다. (/views/chap04/score-list.jsp)
+
+            - 리다이렉트는 요청후에 자동응답이 나가고
+              2번째 자동요청이 들어오면서 2번째 응답을 내보냄
+            - 따라서 2번째 요청의 URL로 자동 변경됨
+            - redirect 할 때는 다시 들어왔으면 하는 요청 url을 적는 것 (score/list -> 목록 요청)
+         */
+
+        return "redirect:/score/list";
+    }
+
+    // 성적 삭제 요청
+    @PostMapping("/remove")
+    public String remove(int stuNum) {
+        System.out.println("/score/remove: POST!!");
+        System.out.println("stuNum = " + stuNum);
+
+        service.deleteScore(stuNum);
+
+        return "redirect:/score/list";
+    }
+
+    // 성적 상세 조회 요청
+    @GetMapping("/detail")
+    public String detail(int stuNum, Model model) {
+        System.out.println("/score/detail: GET!!");
+        System.out.println("stuNum = " + stuNum);
+
+        // retrieve(stuNum);
+        service.findOne(stuNum);
+        model.addAttribute("s");
+        // model.addAttribute("s",service.findOne(stuNum));로 간추리기 가능
+
+        // 상세보기 이기 때문에 DTO가 아닌 Entity를 담아서 jsp로 보냅니다.
+        // chap04/score-detail.jsp
+
+        return "chap04/score-detail";
+
+    }
+
+    // 수정 페이지로 이동 요청
+    @GetMapping("/modify")
+    public String modify(int stuNum,Model model) {
+        System.out.println("/score/modify: GET!!!");
+        retrieve(stuNum, model);
+
+        return "chap04/score-modify";
+
+    }
+
+    // 수정 처리 요청
+    @PostMapping ("/modify")
+    public String modify(ScoreRequestDTO dto, int stuNum) { // 같이 받는게 효율적이라 DTO선택. 모든 값을 꼭 다 받아야 하는거 아니라 name은 null로 받는다.
+        System.out.println("/score/modify: POST!!!");
+        // 서비스, 레파지토리 계층과 연계하여 update 처리를 진행해 주세요.
+        // 수정이 완료된 후 사용자에게 응답할 페이지는
+        // 최신 수정 내용이 반영된 detail 페이지 입니다. -> redirect
+        service.updateScore(stuNum, dto);
+
+        return "redirect:/score/detail?stuNum=" + stuNum;
+    }
 
 
-        return null;
+
+
+
+
+
+
+
+
+
+
+
+    private void retrieve(int stuNum, Model model) {
+        Score score = service.findOne(stuNum);
+        model.addAttribute("s", score);
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -86,7 +86,6 @@ class JdbcRepositoryTest {
         System.out.println(p);
 
         assertNull(p); // p가 null이 아닐것을 단언
-
     }
 
 
