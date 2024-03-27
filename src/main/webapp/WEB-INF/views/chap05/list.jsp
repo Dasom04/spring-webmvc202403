@@ -86,7 +86,7 @@
                 </div>
 
             </div>
-        <c:forEach>
+        </c:forEach>
     </div>
 
     <!-- 게시글 목록 하단 영역 -->
