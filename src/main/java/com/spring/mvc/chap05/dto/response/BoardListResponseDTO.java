@@ -15,7 +15,7 @@ public class BoardListResponseDTO {
     private final int boardNo;
     private final String shortTitle; // 5글자 이상이면 잘라내기
     private final String shortContent; // 30자 이상이면 잘라내기
-    private final String regDate; // 날짜패턴 yyyy-mm-dd HH:mm
+    private final String regDate; // 날짜패턴 yyyy-MM-dd HH:mm
     private final int viewCount;
     private final String writer;
 
@@ -28,7 +28,7 @@ public class BoardListResponseDTO {
         this.writer = board.getWriter();
     }
 
-    private String makePrettierDateString(LocalDateTime regDate) {
+    public static String makePrettierDateString(LocalDateTime regDate) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return dtf.format(regDate);
     }
