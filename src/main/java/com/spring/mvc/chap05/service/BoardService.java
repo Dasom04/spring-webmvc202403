@@ -1,6 +1,6 @@
 package com.spring.mvc.chap05.service;
 
-import com.spring.mvc.chap05.common.Page;
+import com.spring.mvc.chap05.common.Search;
 import com.spring.mvc.chap05.dto.request.BoardWriteRequestDTO;
 import com.spring.mvc.chap05.dto.response.BoardDetailResponseDTO;
 import com.spring.mvc.chap05.dto.response.BoardListResponseDTO;
@@ -27,7 +27,7 @@ public class BoardService {
     }
 
     // mapper로부터 전달받은 entity List를 DTO List로 변환해서 컨트롤러에게 리턴.
-    public List<BoardListResponseDTO> getList(Page page) {
+    public List<BoardListResponseDTO> getList(Search page) {
         List<BoardListResponseDTO> dtoList = new ArrayList<>();
         List<Board> boardList = mapper.findAll(page);
         for (Board board : boardList) {
@@ -51,8 +51,8 @@ public class BoardService {
 
     }
 
-    public int getCount() {
-        return mapper.getCount();
+    public int getCount(Search page) {
+        return mapper.getCount(page);
 
     }
 }
