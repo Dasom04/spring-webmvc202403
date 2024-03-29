@@ -48,9 +48,9 @@
         </div>
 
         <div class="amount">
-            <div><a href="/board/list?pageNo=${1}&amount=${6}&type=${s.type}&keyword=${s.keyword}">6</a></div>
-            <div><a href="/board/list?pageNo=${1}&amount=${18}&type=${s.type}&keyword=${s.keyword}">18</a></div>
-            <div><a href="/board/list?pageNo=${1}&amount=${30}&type=${s.type}&keyword=${s.keyword}">30</a></div>
+            <div><a href="/board/list?pageNo=1&amount=6&type=${s.type}&keyword=${s.keyword}">6</a></div>
+            <div><a href="/board/list?pageNo=1&amount=18&type=${s.type}&keyword=${s.keyword}">18</a></div>
+            <div><a href="/board/list?pageNo=1&amount=30&type=${s.type}&keyword=${s.keyword}">30</a></div>
         </div>
 
     </div>
@@ -100,9 +100,10 @@
                                              href="/board/list?pageNo=1&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}">&lt;&lt;</a>
                     </li>
                 </c:if>
+
                 <c:if test="${maker.prev}">
                     <li class="page-item"><a class="page-link"
-                                             href="/board/list?pageNo=${maker.begin-1}&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}"prev</a>
+                                             href="/board/list?pageNo=${maker.begin-1}&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}">prev</a>
                     </li>
                 </c:if>
 
@@ -115,12 +116,11 @@
 
                 <c:if test="${maker.next}">
                     <li class="page-item"><a class="page-link"
-                                             href="/board/list?pageNo=${maker.end+1}&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}"next</a>
+                                             href="/board/list?pageNo=${maker.end+1}&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}">next</a>
                     </li>
                 </c:if>
 
                 <c:if test="${maker.page.pageNo != maker.finalPage}">
-            
                     <li class="page-item"><a class="page-link"
                                              href="/board/list?pageNo=${maker.finalPage}&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}">&gt;&gt;</a>
                     </li>
@@ -192,7 +192,7 @@
             console.log('bno:' + bno);
 
             // 서버에 요청보내기
-            location.href='/board/detail/' + bno + '?pagrNo=${s.pageNo}&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}'; // 경로에 바로 파라미터값을 붙인다.
+            location.href='/board/detail/' + bno + '?pagerNo=${s.pageNo}&amount=${s.amount}&type=${s.type}&keyword=${s.keyword}'; // 경로에 바로 파라미터값을 붙인다.
         }
 
     });
@@ -253,10 +253,10 @@
     // li 태그들을 전부 확인해서
     // 현재 페이지 번호와 일치하는 li를 찾은 후 active라는 클래스 이름 붙이기
     const $ul = document.querySelector('.pagination');
-    const $liList = [...$ul.chilgren];
+    const $liList = [...$ul.children];
 
     $liList.forEach($li => {
-        if (currPage == $li.dataset.pageNum) {
+        if (currPage === $li.dataset.pageNum) {
             $li.classList.add('active');
         }
     });
@@ -267,7 +267,7 @@
     // 검색조건 셀렉트박스 옵션타입 고정하기
     function fixSearchOption() {
         const $select = document.getElementById('search-type');
-        // 샐렉트 박스 내에 잇는 option 태그를 전부 가져오기
+        // 셀렉트 박스 내에 있는 option 태그들 전부 가져오기
         const $options = [...$select.children];
 
         $options.forEach($opt => {
