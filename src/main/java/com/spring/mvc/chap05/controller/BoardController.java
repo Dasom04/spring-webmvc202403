@@ -37,7 +37,7 @@ public class BoardController {
         model.addAttribute("maker", pageMaker);
 
         // 메서드의 파라미터값을 model객체에 바로 추가하고 싶다면 @ModelAttribute()를 사용.
-        // @ModelAttribute("s")
+        // @ModelAttribute("s")  model.addAttribute("s", page);
 
         return "chap05/list";
     }
