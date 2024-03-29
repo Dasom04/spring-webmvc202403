@@ -16,7 +16,7 @@ import java.util.List;
 public class BoardRepositoryImpl implements BoardRepository{
 
 
-    class BoardMapper implements RowMapper <Board>{
+    class BoardMapper implements RowMapper <Board> {
         @Override
         public Board mapRow(ResultSet rs, int rowNum) throws SQLException {
 
@@ -52,9 +52,9 @@ public class BoardRepositoryImpl implements BoardRepository{
 
     @Override
     public void save(Board board) {
-        String sql = "INSERT INTO tbl_board" +
-                "(title, content, writer)" +
-                "VALUES(?, ?, ?)";
+        String sql = "INSERT INTO tbl_board " +
+                "(title, content, writer) " +
+                "VALUES (?, ?, ?)";
         template.update(sql, board.getTitle(), board.getContent(), board.getWriter());
 
     }
