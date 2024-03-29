@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder // 디자인 패턴 각필드별로 메서드를 만들어 준다.
 public class Board {
 
     private int boardNo; // 게시글 번호

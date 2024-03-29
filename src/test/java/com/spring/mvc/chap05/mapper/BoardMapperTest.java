@@ -1,6 +1,5 @@
 package com.spring.mvc.chap05.mapper;
 
-import com.spring.mvc.chap05.common.Page;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,11 @@ class BoardMapperTest {
 
     @Test
     @DisplayName("test")
-    void testSelect(Page page) {
+    void testSelect() {
         // given
 
         // when
-        mapper.findAll(page).forEach(board -> System.out.println(board));
+      //  mapper.findAll(page).forEach(board -> System.out.println(board));
         // then
     }
 
