@@ -286,7 +286,7 @@
             fetch(`\${URL}/${bno}`) // (URL + '/' + bno) 와 동일함
         }
 
-        const $addBtn = document.getElementById('replyAddBtn');
+        const $addBtn = document.getElementById('replyAddBtn'); 
 
         $addBtn.onclick = e => {
 
