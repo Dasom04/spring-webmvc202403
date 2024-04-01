@@ -276,14 +276,84 @@
 
         const URL = '/api/v1/replies'; // 댓글과 관련된 요청 url을 전역변수화.
         const bno = '${b.boardNo}'; // 게시글 번호를 전역변수화.
+
+        
+        // 화면에 댓글 태그들을 렌더링하는 함수
+        function renderReplies(replies) {
+            
+            let tag = '';
+
+            if (replies !== null && replies.length > 0) {
+
+                for (let reply of replies) {
+                    // 객체 디스럭터링 구조 분해 할당
+                    const {rno, writer, text, regDate} = reply;
+
+                    tag += `
+                    <div id='replyContent' class='card-body' data-replyId='\${rno}'>
+                        <div class='row user-block'>
+                            <span class='col-md-8'>
+                        `;
+
+
+                        tag += `<b>\${writer}</b>
+                                </span>
+                                <span class='col-md-4 text-right'><b>\${regDate}</b></span>
+                            </div><br>
+                            <div class='row'>
+                                <div class='col-md-9'>\${text}</div>
+                                <div class='col-md-3 text-right'>
+                            `;
+
+                        tag += `
+                            <a id='replyModBtn' class='btn btn-sm btn-outline-dark' data-bs-toggle='modal' data-bs-target='#replyModifyModal'>수정</a>&nbsp;
+                            <a id='replyDelBtn' class='btn btn-sm btn-outline-dark' href='#'>삭제</a>
+            
+                        `;
+                                
+                    tag += `   </div>
+                            </div>
+                        </div>
+                    `;
+
+                } // end for
+
+
+
+            } else {
+                tag += "<div id='replyContent' class='card-body'>댓글이 아직 없습니다! ㅠㅠ</div>";
+
+            }
+
+                // 댓글 수 렌더링
+                document.getElementById('replyCnt').textContent = replies.length;
+                // 댓글 렌더링
+                // 반복문을 이용해서 문자열로 작성한 tag를 댓글영역 div에 innerHTML로 그대로 삽입.
+                document.getElementById('replyData').innerHTML = tag;
+
+        }
+
+
+
       
         // 서버에 실시간으로 비동기 통신을 통해서 JSON을 받아오는 함수
         function fetchGetReplies() {
             // fetch 함수를 통해 비동기통신 진행할 때 GET요청은 요청에 관련된 객체를 따로 전달하지 않습니다.
             // method를 get이라고 얘기하지 않고, 데이터 전달 시에는 URL에 포함시켜서 전달.
-            // 자바스크립트 문자열 안에 ${}그냥 쓰면 el로 인식, 만약 템플릿 리터럴문자를 스고 싶으면 앞에 \를 붙여주세요. 
-            // 
+            // 자바스크립트 문자열 안에 달러와 중괄호를 그냥 쓰면 el로 인식,
+            // 만약 템플릿 리터럴문자를 쓰고 싶으면 앞에 \를 붙여 주세요. 
             fetch(`\${URL}/${bno}`) // (URL + '/' + bno) 와 동일함
+            .then(res => res.json())
+            .then(replyList => {
+                console.log(replyList);
+                // 서버로부터 전달받은 댓글 목록들을 화면에 그려야 한다.
+                // 기존에는 model에 담아서 jsp로 전달했고, jsp쪽에서 el을 이용해서 화면에 뿌렸죠.
+                // 이제 서버는 그냥 데이터만 딸랑 던져주고 끝입니다.
+                // 화면 가공은 js에서 진행해야 합니다.
+                renderReplies(replyList);
+
+
+            });
         }
 
         const $addBtn = document.getElementById('replyAddBtn'); 
@@ -302,7 +372,7 @@
             alert('댓글 내용은 필수값입니다!')
             return
         } else if(writerVal === '') {
-            alert('댓글 작성은 필수값입니다!')
+            alert('댓글 작성자는 필수값입니다!')
             return
         } else if(writerVal.length < 2 || writerVal.length > 8) {
             alert('댓글 작성자는 2글자에서 8글자 사이로 작성하세요!')
@@ -328,10 +398,10 @@
 
         // 서버에 POST 요청 보내기
         fetch(URL, requestInfo)
-            // then(callbackFn) ->  비동기 통시느이 결과를 확인하기 위해 then과 콜백함수 전달 
-            // 콜백함수의 매개변수로 응답정보가 담기 Response 객체가 전달되고,
+            // then(callbackFn) ->  비동기 통신의 결과를 확인하기 위해 then과 콜백함수 전달 
+            // 콜백함수의 매개변수로 응답정보가 담긴 Response 객체가 전달되고,
             // Response 객체에서 json 데이터를 꺼내고 싶으면 json(), 단순 텍스트라면 text().
-            .then(res =>{
+            .then(res => {
                 console.log(res.status); // 서버에서 전달한 응답 상태 코드
                 if(res.status === 200) {
                     alert('댓글이 정상 등록되었습니다.');
@@ -355,8 +425,17 @@
             });
 
       }
+ 
+      // ===== 메인 실행부 ===== //
 
+      // 즉시 실행 함수를 통해 페이지가 로딩되면 함수가 자동으로 호출되게 하자.
+      
 
+      (() => {
+        
+        // 댓글을 서버에서 불러오기
+        fetchGetReplies();
+      })();
 
     </script>
 

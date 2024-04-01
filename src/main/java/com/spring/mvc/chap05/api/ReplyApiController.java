@@ -1,6 +1,7 @@
 package com.spring.mvc.chap05.api;
 
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
+import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.entity.Reply;
 import com.spring.mvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *
@@ -39,7 +42,8 @@ public class ReplyApiController {
     public ResponseEntity<?> list(@PathVariable int boardNo) {
         System.out.println("/api/v1/replies/" + boardNo + " : GET!");
 
-        replyService.getList(boardNo);
+        List<ReplyDetailResponseDTO> dtoList = replyService.getList(boardNo);
+            return ResponseEntity.ok().body(dtoList);
     }
 
 
@@ -53,7 +57,7 @@ public class ReplyApiController {
 
         // 입력값 검증에 걸리면 400번 status와 함께 메세지를 클라이언트로 전송
         if(result.hasErrors()) {
-            // ResponseEntity응답에 관련된 여러가지 정보(상태 코드, 전달할 데이터 등...)를
+            // ResponseEntity는 응답에 관련된 여러가지 정보(상태 코드, 전달할 데이터 등...)를
             // 한번에 객체로 포장해서 리턴할 수 있게 하는 Spring에서 제공하는 객체.
             return ResponseEntity
                     .badRequest()
