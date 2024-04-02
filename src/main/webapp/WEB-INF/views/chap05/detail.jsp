@@ -277,10 +277,45 @@
         const URL = '/api/v1/replies'; // 댓글과 관련된 요청 url을 전역변수화.
         const bno = '${b.boardNo}'; // 게시글 번호를 전역변수화.
 
+        // 화면에 페이지 버튼들을 렌더링하는 함수 
+        // 매개변수 선언부에 처음부터 디스트럭처링 해서 받을 수 있다.
+        function renderPage({begin, end, prev, next, page, finalPage}) { 
+           
+            let tag = '';
+
+            // 이전 버튼 만들기
+            if(prev) {
+                tag += `<li class='page-item'><a class='page-link page-active' href='\${begin - 1}'>이전</a></li>`;
+            }
+
+            // 페이지 번호 버튼 리스트 만들기
+            for(let i = begin; i<=end; i++) {
+                let active = '';
+                if(page.pageNo === i) {
+                    active = 'p-active';
+                }
+
+                tag += `<li class='page-item \${active}'><a class='page-link page-custom' href='\${i}'>\${i}</a></li>`;
+            }
+
+            // 다음버튼 만들기
+            if(next) {
+                tag += `<li class='page-item'><a class='page-link page-active' href='\${end + 1}'>다음</a></li>`;
+            }
+
+            // 페이지 태그 렌더링
+            const $pageUl = document.querySelector('.pagenation');
+            $pageUl.innerHTML = tag;
+
+        }
+
         
         // 화면에 댓글 태그들을 렌더링하는 함수
-        function renderReplies(replies) {
+        function renderReplies(replyList) {
             
+            // 객체 디스럭처링 (댓글수, 페이지메이커, 댓글목록으로 분해)
+           // const {count, pageInfo, replies} = replyList; 매개변수 선언부터 두면 간결하게 사용 가능
+
             let tag = '';
 
             if (replies !== null && replies.length > 0) {
@@ -305,16 +340,18 @@
                                 <div class='col-md-3 text-right'>
                             `;
 
+
                         tag += `
                             <a id='replyModBtn' class='btn btn-sm btn-outline-dark' data-bs-toggle='modal' data-bs-target='#replyModifyModal'>수정</a>&nbsp;
                             <a id='replyDelBtn' class='btn btn-sm btn-outline-dark' href='#'>삭제</a>
-            
                         `;
-                                
+                           
+                        
                     tag += `   </div>
                             </div>
                         </div>
                     `;
+
 
                 } // end for
 
@@ -326,10 +363,13 @@
             }
 
                 // 댓글 수 렌더링
-                document.getElementById('replyCnt').textContent = replies.length;
+                document.getElementById('replyCnt').textContent = count;
                 // 댓글 렌더링
                 // 반복문을 이용해서 문자열로 작성한 tag를 댓글영역 div에 innerHTML로 그대로 삽입.
                 document.getElementById('replyData').innerHTML = tag;
+
+                // 페이지 렌더닝 함수 호출
+                renderPage(pageInfo);
 
         }
 
@@ -337,14 +377,14 @@
 
       
         // 서버에 실시간으로 비동기 통신을 통해서 JSON을 받아오는 함수
-        function fetchGetReplies() {
+        function fetchGetReplies(pageNum = 1) { // 댓글 목록 요청시 페이지번호 전달(전달 안되면 기본값 1)
             // fetch 함수를 통해 비동기통신 진행할 때 GET요청은 요청에 관련된 객체를 따로 전달하지 않습니다.
             // method를 get이라고 얘기하지 않고, 데이터 전달 시에는 URL에 포함시켜서 전달.
             // 자바스크립트 문자열 안에 달러와 중괄호를 그냥 쓰면 el로 인식,
             // 만약 템플릿 리터럴문자를 쓰고 싶으면 앞에 \를 붙여 주세요. 
-            fetch(`\${URL}/${bno}`) // (URL + '/' + bno) 와 동일함
-            .then(res => res.json())
-            .then(replyList => {
+            fetch(`\${URL}/${bno}/page/\${pageNum}`) // (URL + '/' + bno) 와 동일함
+            .then(res => res.json()) // .then = 그러면 서버가 넘겨준 제이슨 데이터를 뽑아내겠다.
+            .then(replyList => { 
                 console.log(replyList);
                 // 서버로부터 전달받은 댓글 목록들을 화면에 그려야 한다.
                 // 기존에는 model에 담아서 jsp로 전달했고, jsp쪽에서 el을 이용해서 화면에 뿌렸죠.
@@ -356,6 +396,8 @@
             });
         }
 
+
+        // 댓글 등록 부분
         const $addBtn = document.getElementById('replyAddBtn'); 
 
         $addBtn.onclick = e => {
@@ -379,7 +421,7 @@
             return;
         }
 
-        // 서버로 보낼 데이터 준비. (js 아직 JSON 아님.)
+        // 서버로 보낼 데이터 준비. (js 객체. 아직 JSON 아님. JSON이 붙으면 그때)
         const payload = {
             text: textVal,
             author: writerVal,
