@@ -103,23 +103,30 @@ public class ReplyApiController {
 
     }
 
+    @DeleteMapping("/{replyNo}")
+    public ResponseEntity<?> remove(@PathVariable Integer replyNo) {
+        if (replyNo == null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("댓글 번호가 전달되지 않음!");
+        }
+        System.out.println("/api/v1/replies/ " + replyNo + ": DELETE");;
+
+        try {
+            replyService.delete(replyNo);
+            return ResponseEntity
+                    .ok()
+                    .body("delSuccess"); // 전송 할 데이터
+        } catch (Exception e) {
+            return ResponseEntity
+                    .internalServerError()  // 에러 500번
+                    .body(e.getMessage());
+        }
 
 
+    }
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

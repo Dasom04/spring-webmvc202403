@@ -516,11 +516,21 @@
                         삭제 완료 후에는 1페이지 댓글 목록 요청이 들어가도록 처리.
                     */
              
+                if(!confirm('정말 삭제할까요?')) return;
+                
+                fetch(`\${URL}/\${rno}`, {
+                    method: 'DELETE'
+                })
+                .then(res => {
+                    if(res.status === 200) {
+                        alert('댓글이 삭제되었습니다.');
+                        fetchGetReplies();
+                    } else {
+                        alert('오류가 발생했습니다. 관리자에게 문의하세요.');
+                        return;
+                    }
+                });
             
-
-
-
-
             } else if (e.target.matches('#replyModBtn')) {
                 // 수정 모드로 진입(모달)
 
