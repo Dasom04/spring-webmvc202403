@@ -304,7 +304,7 @@
             }
 
             // 페이지 태그 렌더링
-            const $pageUl = document.querySelector('.pagenation');
+            const $pageUl = document.querySelector('.pagination');
             $pageUl.innerHTML = tag;
 
         }
@@ -314,14 +314,14 @@
         function renderReplies(replyList) {
             
            // 객체 디스트럭처링 (댓글수, 페이지메이커, 댓글목록으로 분해)
-           // const {count, pageInfo, replies} = replyList; 매개변수 선언부터 두면 간결하게 사용 가능
+            const {count, pageInfo, replies} = replyList; // 매개변수 선언부터 두면 간결하게 사용 가능
 
             let tag = '';
 
             if (replies !== null && replies.length > 0) {
 
                 for (let reply of replies) {
-                    // 객체 디스트럭처링 구조 분해 할당
+                    // 객체 디스트럭처링 (구조 분해 할당)
                     const {rno, writer, text, regDate, updateDate} = reply;
 
                     tag += `
@@ -400,7 +400,7 @@
         // 페이지 클릭 이벤트 핸들러 등록 함수
         function makePageButtonClickHandler() {
 
-            const $pageUl = document.querySelector('.pagenation');
+            const $pageUl = document.querySelector('.pagination');
 
             $pageUl.onclick = e => {
                 
@@ -507,6 +507,19 @@
             if(e.target.matches('#replyDelBtn')) {
                 // 삭제 로직 진행
 
+                    /*
+                        confirm함수 이용해서 한번 더 물어봐 주세요.
+
+                        URL: /api/v1/replies/rno: DELETE, 전달되는 JSON은 없습니다.
+                        headers랑 body는 작성할 필요가 없습니다.
+
+                        삭제 완료 후에는 1페이지 댓글 목록 요청이 들어가도록 처리.
+                    */
+             
+            
+
+
+
 
             } else if (e.target.matches('#replyModBtn')) {
                 // 수정 모드로 진입(모달)
@@ -531,11 +544,11 @@
       // 모달 안에서 수정버튼 클릭시 이벤트 처리 함수
       function makeReplyModifyClickHandler() {
 
-        const $modBn = document.getElementById('replyModBtn');
+        const $modBtn = document.getElementById('replyModBtn');
 
         $modBtn.addEventListener('click', e => {
             const payload = {
-                rno: +documen.getElementById('modReplyId').value,
+                rno: +document.getElementById('modReplyId').value,
                 text: document.getElementById('modReplyText').value
             }
 
