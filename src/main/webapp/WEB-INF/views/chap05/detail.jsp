@@ -397,6 +397,25 @@
         }
 
 
+        // 페이지 클릭 이벤트 핸들러 등록 함수
+        function makePageButtonClickHandler() {
+
+            const $pageUl = document.querySelector('.pagenation');
+
+            $pageUl.onclick = e => {
+                
+                // 이벤트 타겟이 a태그가 아니면 href 속성을 못가지고 올 수 있으니 타겟 제한하기
+                if(!e.target.matches('.page-item a')) return;
+
+                e.preventDefault();
+
+            }
+
+        }
+
+
+
+
         // 댓글 등록 부분
         const $addBtn = document.getElementById('replyAddBtn'); 
 

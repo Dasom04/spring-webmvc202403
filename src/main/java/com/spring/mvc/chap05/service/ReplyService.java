@@ -29,7 +29,7 @@ public class ReplyService {
     }
 
     // 댓글 목록 조회
-    public List<ReplyDetailResponseDTO> getList(int boardNo, Page page) {
+    public ReplyListResponseDTO getList(int boardNo, Page page) {
         List<ReplyDetailResponseDTO> dtoList = new ArrayList<>();
         // DB에서 댓글 정보 조회
         List<Reply> replyList = mapper.findAll(boardNo, page);
