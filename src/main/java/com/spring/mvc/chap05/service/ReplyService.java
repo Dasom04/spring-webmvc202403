@@ -3,6 +3,7 @@ package com.spring.mvc.chap05.service;
 import com.spring.mvc.chap05.common.Page;
 import com.spring.mvc.chap05.common.PageMaker;
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
+import com.spring.mvc.chap05.dto.request.replyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
 import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
 import com.spring.mvc.chap05.entity.Reply;
@@ -51,9 +52,17 @@ public class ReplyService {
         }
 
 
+    public void modify(replyModifyRequestDTO dto) {
+
+        Reply reply = dto.toEntity();
+        mapper.modify(reply);
 
 
     }
+
+
+
+}
     
     
 
