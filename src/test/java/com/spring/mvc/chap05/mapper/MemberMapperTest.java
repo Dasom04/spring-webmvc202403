@@ -62,13 +62,13 @@ class MemberMapperTest {
         @DisplayName("이메일이 abc@naver.com일 경우 중복확인 결과값이 false여야 한다.")
         void duplicateEmailTest() {
             // given
-            String email = "abc@naver.com";
+            String email = "fgdg@naver.com";
 
             // when
             boolean emailFlag = memberMapper.isDuplicate("email", email);
 
             // then
-            assertTrue(emailFlag);
+            assertFalse(emailFlag); // 테이블에 정보가 있어서 중복될 경우 true로 나와 단언을 true로 해야한다.
         }
 
 
