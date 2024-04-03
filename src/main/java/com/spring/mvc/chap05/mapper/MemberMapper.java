@@ -13,7 +13,6 @@ public interface MemberMapper {
     // 회원 정보 단일 조회
     Member findMember(String account);
 
-
     /**
      * 중복체크 (account, email) 기능
      * @param type - 중복을 검사 할 내용 (account, email)

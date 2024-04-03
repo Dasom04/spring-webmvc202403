@@ -1,5 +1,7 @@
 package com.spring.mvc.chap05.entity;
 
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 /*
@@ -15,6 +17,12 @@ CREATE TABLE tbl_member (
     CONSTRAINT pk_member PRIMARY KEY (account)
 );
  */
+
+@Setter @Getter @ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Builder
 public class Member {
 
     private String account;

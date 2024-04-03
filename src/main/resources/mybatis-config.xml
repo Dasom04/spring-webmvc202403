@@ -16,6 +16,7 @@
         <!-- 엔터티 클래스 별칭 붙이기 -->
         <typeAlias type="com.spring.mvc.chap05.entity.Board" alias="board" />
         <typeAlias type="com.spring.mvc.chap05.entity.Reply" alias="reply" />
+        <typeAlias type="com.spring.mvc.chap05.entity.Member" alias="member" />
 
     </typeAliases>
 
@@ -23,6 +24,7 @@
     <mappers>
         <mapper resource="mapper/BoardMapper.xml" />
         <mapper resource="mapper/ReplyMapper.xml" />
+        <mapper resource="mapper/MemberMapper.xml" />
     </mappers>
 
 
