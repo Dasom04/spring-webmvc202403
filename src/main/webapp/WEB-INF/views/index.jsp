@@ -6,7 +6,7 @@
     <title>Insert Your Title</title>
 </head>
 <body>
-      <h1>Hello Spring!!!</h1>
+
     <%
         String userName = "방문자";
 
