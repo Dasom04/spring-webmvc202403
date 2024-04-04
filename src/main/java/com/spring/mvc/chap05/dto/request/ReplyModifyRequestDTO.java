@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class replyModifyRequestDTO {
+public class ReplyModifyRequestDTO {
 
     @NotNull
     private  int rno; // 수정할 댓글 번호
