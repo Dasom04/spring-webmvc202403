@@ -9,6 +9,9 @@ public class LoginUtils {
     // 로그인 세션 키
     public static final String LOGIN_KEY = "login"; // LOGIN_KEY를 통해 login을 알 수 있고 값은 절대 바꿀 수 없다.
 
+    // 자동 로그인 쿠키 이름
+    public static final String AUTO_LOGIN_COOKIE = "auto";
+
     // 로그인 여부 확인
     public static boolean isLogin(HttpSession session) {
         return session.getAttribute(LOGIN_KEY) != null;

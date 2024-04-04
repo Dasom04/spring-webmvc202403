@@ -69,8 +69,9 @@ public class MemberController {
         // RedirectAttributes 이거 사용하기!
         log.info("/members/sing-in: POST!, dto: {}", dto);
 
-        LoginResult result = memberService.authenticate(dto);
-        log.info("request"); // 내 확인용.
+        // 자동 로그인 서비스를 추가하기 위해서 세션과 응답객체도 함께 전달.
+        LoginResult result = memberService.authenticate(dto, request.getSession(), response);
+        log.info("request: {}", request); // 내 확인용.
 
  //       model.addAttribute("result", result);
         ra.addFlashAttribute("result", result);
