@@ -26,9 +26,8 @@ public interface MemberMapper {
     // 자동 로그인 세션아이디, 만료시간을 업데이트
     void saveAutoLogin(AutoLoginDTO build);
 
-
-
-
+    // 쿠키값으로 (세션아이디)으로 회원정보를 조회 (고유한 값이라 한명만 가져오면 돼서 Member타입)
+    Member findMemberByCookie(String sessionId);
 }
 
 
