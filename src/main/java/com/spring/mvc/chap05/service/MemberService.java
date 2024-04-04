@@ -5,6 +5,7 @@ import com.spring.mvc.chap05.dto.request.SignUpRequestDTO;
 import com.spring.mvc.chap05.dto.response.LoginUserResponseDTO;
 import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.mapper.MemberMapper;
+import com.spring.mvc.util.LoginUtils;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Mapper;
@@ -79,15 +80,16 @@ public class MemberService {
         // 현재 로그인한 회원의 모든 정보 조회
         Member foundMember = memberMapper.findMember(account);
 
-        // DB 데이터르 ㄹ보여줄 것만 정제
+        // DB 데이터를 보여줄 것만 정제
         LoginUserResponseDTO dto = LoginUserResponseDTO.builder()
                 .account(foundMember.getAccount())
                 .name(foundMember.getName())
                 .email(foundMember.getEmail())
+                .auth(foundMember.getAuth().getDescription())
                 .build();
 
         // 세션에 로그인한 회원 정보를 저장
-        session.setAttribute("login", dto);
+        session.setAttribute(LoginUtils.LOGIN_KEY, dto);
         // 세션 수명 설정
         session.setMaxInactiveInterval(60 * 60); // <- 1시간. 800초가 기본 수명(30분)
 

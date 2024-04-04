@@ -31,7 +31,7 @@ public class Board {
     private String writer; // 작성자
 
     public Board(BoardWriteRequestDTO dto) {
-        this.writer = dto.getWriter();
+      //  this.writer = dto.getWriter();
         this.title = dto.getTitle();
         this.content = dto.getContent();
 //         this.regDate = LocalDateTime.now();
