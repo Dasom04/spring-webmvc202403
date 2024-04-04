@@ -19,6 +19,14 @@
 </head>
 <body>
 
+    <c:if test="${login != null}">
+        <script>
+            alert('이미 로그인 했는데 왜와?');
+            location.href="/board/list";
+        </script>
+    </c:if>
+
+
     <%@ include file="../include/header.jsp" %>
 
     <div class="container wrap">
@@ -119,11 +127,6 @@
         } else if (serverResult == 'NO_PW') {
             alert('비밀번호가 틀렸어요~!');
         }
-
-
-
-
-
 
 
 
