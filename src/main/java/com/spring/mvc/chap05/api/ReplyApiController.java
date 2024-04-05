@@ -73,7 +73,7 @@ public class ReplyApiController {
                     .body(result.toString());
         }
 
-        log.info("/api/v1/replies: POST, dto" + dto);
+        log.info("/api/v1/replies: POST, dto: {}" , dto);
 
         replyService.register(dto, session);
 

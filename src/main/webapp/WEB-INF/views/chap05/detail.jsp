@@ -282,9 +282,9 @@
         const URL = '/api/v1/replies'; // 댓글과 관련된 요청 url을 전역변수화.
         const bno = '${b.boardNo}'; // 게시글 번호를 전역변수화.
         const currentAccount = '${login.account}'; // 로그인한 사람 계정
-        const auth = '${login.ayth}'; // 로그인한 사람 권한
+        const auth = '${login.auth}'; // 로그인한 사람 권한
 
-        console.log('auth: '+ auth);
+        console.log('auth: ', auth);
 
         // 화면에 페이지 버튼들을 렌더링하는 함수 
         // 매개변수 선언부에 처음부터 디스트럭처링 해서 받을 수 있다.
@@ -547,10 +547,10 @@
             } else if (e.target.matches('#replyModBtn')) {
                 // 수정 모드로 진입(모달)
 
-                // 기존에 작성한 댓글 내용을 가져오자. (클릭된 수정버튼 근처에 이슨 댓글 내용)
+                // 기존에 작성한 댓글 내용을 가져오자. (클릭된 수정버튼 근처에 있는 댓글 내용)
                 const replyText = e.target.parentNode.previousElementSibling.textContent;
 
-                // 읽어온 댓글 내용들 모달 바다에 집어넣기
+                // 읽어온 댓글 내용들을 모달 바디에 집어넣기
                 document.getElementById('modReplyText').value = replyText;
 
                 // 아까 읽어놓은 댓글번호 모달안에 있는 input hidden에 집어넣자
