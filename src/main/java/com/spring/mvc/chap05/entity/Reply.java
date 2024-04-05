@@ -13,23 +13,41 @@ CREATE TABLE tbl_reply
     CONSTRAINT fk_reply FOREIGN KEY(board_no)REFERENCES	tbl_board(board_no)
     ON DELETE CASCADE
     );
+
+    reply 테이블에 account 컬럼이 추가되었다.
+    ALTER TABLE tbl_reply
+    ADD account VARCHAR(50);
+
+    ALTER TABLE tbl_reply
+    ADD CONSTRAINT fk_reply_account
+    FOREIGN KEY (account)
+    REFERENCES tbl_member (account)
+    ON DELETE CASCADE;
+
 */
 
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Setter @Getter @ToString
+@Getter @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Reply {
+
     private int replyNo;
+    @Setter
     private String replyText;
+    @Setter
     private String replyWriter;
     private LocalDateTime replyDate;
     private int boardNo;
     private LocalDateTime updateDate;
+
+    // reply 테이블에 컬럼이 추가되었다.
+    @Setter
+    private String account;
 
 }
