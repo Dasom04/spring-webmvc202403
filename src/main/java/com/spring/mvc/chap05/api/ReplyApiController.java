@@ -2,20 +2,14 @@ package com.spring.mvc.chap05.api;
 
 import com.spring.mvc.chap05.common.Page;
 import com.spring.mvc.chap05.dto.request.ReplyPostRequestDTO;
-import com.spring.mvc.chap05.dto.request.replyModifyRequestDTO;
-import com.spring.mvc.chap05.dto.response.ReplyDetailResponseDTO;
+import com.spring.mvc.chap05.dto.request.ReplyModifyRequestDTO;
 import com.spring.mvc.chap05.dto.response.ReplyListResponseDTO;
-import com.spring.mvc.chap05.entity.Reply;
 import com.spring.mvc.chap05.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  *
@@ -87,7 +81,7 @@ public class ReplyApiController {
 
 
     @PutMapping
-    public ResponseEntity<?> update(@Validated @RequestBody replyModifyRequestDTO dto,
+    public ResponseEntity<?> update(@Validated @RequestBody ReplyModifyRequestDTO dto,
                                     BindingResult result) {
         if(result.hasErrors()) {
             return  ResponseEntity

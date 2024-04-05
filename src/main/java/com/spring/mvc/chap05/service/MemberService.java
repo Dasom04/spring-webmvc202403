@@ -8,15 +8,18 @@ import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.mapper.MemberMapper;
 import com.spring.mvc.util.LoginUtils;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.WebUtils;
 
 import java.time.LocalDateTime;
 
 import static com.spring.mvc.chap05.service.LoginResult.*;
+import static com.spring.mvc.util.LoginUtils.*;
 
 @Service
 @RequiredArgsConstructor
@@ -66,7 +69,7 @@ public class MemberService {
         // 자동 로그인 처리
         if (dto.isAutoLogin()) {
             // 1. 자동 로그인 쿠키 생성 - 쿠키 안에 절대 중복되지 않는 값을 저장. (브라우저 세션 아이디 절대 중복되지 않음)
-            Cookie autoLoginCookie = new Cookie(LoginUtils.AUTO_LOGIN_COOKIE, session.getId());
+            Cookie autoLoginCookie = new Cookie(AUTO_LOGIN_COOKIE, session.getId());
 
             // 2. 쿠키 설정 - 사용경로, 수명...
             int limitTime = 60 * 60 * 24 * 90; //자동 로그인 유지 시간
@@ -121,9 +124,39 @@ public class MemberService {
                 .build();
 
         // 세션에 로그인한 회원 정보를 저장
-        session.setAttribute(LoginUtils.LOGIN_KEY, dto);
+        session.setAttribute(LOGIN_KEY, dto);
         // 세션 수명 설정
         session.setMaxInactiveInterval(60 * 60); // <- 1시간. 800초가 기본 수명(30분)
+
+
+
+    }
+
+    public void autoLoginClear(HttpServletRequest request, HttpServletResponse response) {
+
+        // 1. 자동 로그인 쿠키를 가져온다.
+        Cookie c = WebUtils.getCookie(request, AUTO_LOGIN_COOKIE);
+
+        // 2. 쿠키를 삭제한다.
+        // -> 쿠키의 수명을 0초로 설정하여 다시 클라이언트에 전송 -> 자동 소멸.
+        if (c != null) {
+            c.setMaxAge(0);
+            c.setPath("/");
+            response.addCookie(c);
+
+            // 3. 데이터베이스에서도 세션아이디와 만료시간을 제거하자.
+            memberMapper.saveAutoLogin(
+                    AutoLoginDTO.builder()
+                            .sessionId("none") // 세션아이디 지우기
+                            .limitTime(LocalDateTime.now()) // 로그아웃한 현재 날짜
+                            .account(getCurrentLoginMemberAccount(request.getSession())) // 로그인 중이었던 사용자 아이디 지목
+                            .build()
+
+            );
+
+
+        }
+
 
 
 
