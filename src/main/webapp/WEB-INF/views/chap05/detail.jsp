@@ -192,9 +192,12 @@
 
 
                                         <div class="profile-box">
-
-                                            <img src="/assets/img/anonymous.jpg" alt="프사">
-
+                                            <c:if test="${login.profile == null}">
+                                                <img src="/assets/img/anonymous.jpg" alt="프사">
+                                            </c:if>
+                                            <c:if test="${login.profile != null}">
+                                                <img src="/display${login.profile}" alt="프사">
+                                            </c:if>
                                         </div>
 
 
@@ -414,7 +417,7 @@
 
             $pageUl.onclick = e => {
                 
-                // 이벤트 타겟이 a태그가 아니면 href 속성을 못가지고 올 수 있으니 타겟 제한하기
+                // 이벤트 타겟이 a태그가 아니면 href 속성을 못가져 올 수 있으니 타겟 제한하기
                 if(!e.target.matches('.page-item a')) return;
 
                 e.preventDefault(); // a태그의 링크 이동 기능 중단
@@ -550,7 +553,7 @@
                 // 기존에 작성한 댓글 내용을 가져오자. (클릭된 수정버튼 근처에 있는 댓글 내용)
                 const replyText = e.target.parentNode.previousElementSibling.textContent;
 
-                // 읽어온 댓글 내용들을 모달 바디에 집어넣기
+                // 읽어온 댓글 내용을 모달 바디에 집어넣기
                 document.getElementById('modReplyText').value = replyText;
 
                 // 아까 읽어놓은 댓글번호 모달안에 있는 input hidden에 집어넣자
