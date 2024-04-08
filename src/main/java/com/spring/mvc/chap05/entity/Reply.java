@@ -28,6 +28,7 @@ CREATE TABLE tbl_reply
 
 import lombok.*;
 
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
 @Getter @ToString
@@ -49,5 +50,7 @@ public class Reply {
     // reply 테이블에 컬럼이 추가되었다.
     @Setter
     private String account;
+
+    private String profileImage;
 
 }

@@ -334,13 +334,17 @@
 
                 for (let reply of replies) {
                     // 객체 디스트럭처링 (구조 분해 할당)
-                    const {rno, writer, text, regDate, updateDate, account} = reply;
+                    const {rno, writer, text, regDate, updateDate, account, profile} = reply;
 
                         tag += `
                         <div id='replyContent' class='card-body' data-replyId='\${rno}'>
                             <div class='row user-block'>
                                 <span class='col-md-8'>
                             `;
+
+                        tag += (profile ? `<img class='reply-profile' src='/local\${profile}' alt='profile image' >`
+                                    : `<img class='reply-profile' src='/assets/img/anonymous.jpg' alt='anonymous image' >`);
+
 
 
                         tag += `<b>\${writer}</b>
@@ -603,7 +607,7 @@
                 })
                 .then(data => {
                     console.log(data);
-                    fetchGetReplies();  // 수정 완료 후 페이지 댓글 목록 요청이 들어가게끔 처리. (매개값 안주면 페이지 번호 자동으로 1)
+                    fetchGetReplies(); // 수정 완료 후 1페이지 댓글 목록 요청이 들어가게끔 처리. (매개값 안주면 페이지 번호 자동으로 1)
                 });
 
 
@@ -629,6 +633,7 @@
         // 댓글 삭제 & 수정버튼 클릭시 발생하는 이벤트 핸들러
         makeReplyRemoveClickHandler();
 
+        // 댓글 수정 클릭 이벤트 헨들러
         makeReplyModifyClickHandler();
 
       })();
