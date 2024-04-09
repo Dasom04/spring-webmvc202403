@@ -33,7 +33,7 @@ public class SnsLoginController {
         return "redirect:" + uri;
 
     }
-/*
+
     // 인가 코드 받기
     @GetMapping("/auth/kakao")
     public String snsKakao(String code) {
@@ -47,8 +47,10 @@ public class SnsLoginController {
         params.put("code", code);
 
         snsLoginService.kakaoLogin(params);
+
+        return "";
     }
 
-*/
+
 
 }
