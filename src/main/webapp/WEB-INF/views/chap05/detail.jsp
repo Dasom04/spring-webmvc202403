@@ -197,11 +197,13 @@
                                             </c:if>
                                             <c:if test="${login.profile != null}">
                                                 <c:choose>
-                                                    <c:when test="/display${login.profile}" alt="프사">
-                                                        <c:otherwise>
-                                                            <img src="${login.profile}" alt="프사">
-                                                        </c:otherwise>
+                                                    <c:when test="${login.loginMethod == COMMON}">
+                                                        <img src="/display${login.profile}" alt="프사">
+                                                        
                                                     </c:when>
+                                                    <c:otherwise>
+                                                        <img src="${login.profile}" alt="프사">
+                                                    </c:otherwise>
                                                 </c:choose>
                                             </c:if>
                                         </div>
@@ -654,7 +656,7 @@
         // 댓글 삭제 & 수정버튼 클릭시 발생하는 이벤트 핸들러
         makeReplyRemoveClickHandler();
 
-        // 댓글 수정 클릭 이벤트 헨들러
+        // 댓글 수정 클릭 이벤트 핸들러
         makeReplyModifyClickHandler();
 
       })();
