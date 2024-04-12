@@ -7,6 +7,7 @@ import com.spring.mvc.chap05.entity.Member;
 import com.spring.mvc.chap05.service.LoginResult;
 import com.spring.mvc.chap05.service.MemberService;
 import com.spring.mvc.util.LoginUtils;
+import com.spring.mvc.util.MailSenderService;
 import com.spring.mvc.util.upload.FileUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ public class MemberController {
     private String rootPath;
 
     private final MemberService memberService;
+    private final MailSenderService mailSenderService;
 
 
     // 회원 가입 양식 화면 요청
@@ -158,6 +160,25 @@ public class MemberController {
         return "redirect:/";
     }
 
+    // 연습용 이메일 폼 화면
+    @GetMapping("/email")
+    public String emailForm() {
+        return "email/email-form";
+    }
+
+    // 이메일 인증
+    @PostMapping("/email")
+    @ResponseBody
+    public ResponseEntity mailCheck(@RequestBody String email) {
+        log.info("이메일 인증 요청 들어옴!: {}", email);
+        try {
+            String authNum = mailSenderService.joinEmail(email);
+            return ResponseEntity.ok().body(authNum);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("이메일 전송 과정에서 에러 발생!");
+        }
+    }
 
 
 }
